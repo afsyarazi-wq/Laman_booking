@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Laman Rumah Nenek — Order System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #4a7c59;
+    --green-light: #6fa37a;
+    --green-pale: #e8f0eb;
+    --green-dark: #2d5038;
+    --cream: #faf7f2;
+    --cream-dark: #f0ebe0;
+    --text: #1e2d22;
+    --text-muted: #5a7060;
+    --orange: #d4722a;
+    --radius: 16px;
+    --shadow: 0 2px 12px rgba(45,80,56,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LAYOUT ── */
+  .app {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    grid-template-rows: 72px 1fr;
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    grid-column: 1 / -1;
+    background: var(--green-dark);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 1.5rem;
+    z-index: 10;
+  }
+  .header-brand { display: flex; align-items: center; gap: 12px; }
+  .header-logo {
+    width: 40px; height: 40px; background: var(--cream);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .header-title { color: #fff; }
+  .header-title h1 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; line-height: 1.1; }
+  .header-title p { font-size: 11px; color: #a8c4b0; letter-spacing: 0.05em; }
+  .header-stats { display: flex; gap: 10px; }
+  .hstat {
+    background: rgba(255,255,255,0.10); border-radius: 10px;
+    padding: 6px 14px; text-align: center;
+  }
+  .hstat-num { color: #fff; font-size: 18px; font-weight: 500; line-height: 1; }
+  .hstat-lbl { color: #a8c4b0; font-size: 10px; margin-top: 1px; }
+
+  /* ── LEFT: MENU PANEL ── */
+  .menu-panel {
+    background: #fff;
+    border-right: 1px solid #dde8df;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2rem;
+  }
+  .menu-panel::-webkit-scrollbar { width: 4px; }
+  .menu-panel::-webkit-scrollbar-thumb { background: #c5d9c9; border-radius: 4px; }
+
+  .category-header {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--green-pale);
+    padding: 10px 1.25rem;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--green-dark);
+    border-bottom: 1px solid #dde8df;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .category-header span { font-size: 16px; }
+
+  .menu-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 1.25rem;
+    border-bottom: 1px solid #f0f4f1;
+    cursor: pointer;
+    transition: background 0.12s;
+    -webkit-user-select: none; user-select: none;
+  }
+  .menu-item:active { background: var(--green-pale); }
+
+  .menu-icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0;
+    background: var(--green-pale);
+  }
+
+  .menu-info { flex: 1; }
+  .menu-name { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .menu-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+
+  .menu-add-btn {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--green); border: none; color: #fff;
+    font-size: 22px; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    align-self: center; transition: background 0.12s, transform 0.1s;
+  }
+  .menu-add-btn:active { background: var(--green-dark); transform: scale(0.92); }
+
+  /* items with variants → show expand indicator */
+  .has-variants .menu-add-btn { background: var(--orange); }
+
+  /* ── VARIANT MODAL ── */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    z-index: 100; display: none; align-items: flex-end; justify-content: center;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 24px 24px 0 0;
+    width: 100%; max-width: 480px; padding: 1.5rem;
+    animation: slideUp 0.22s ease;
+    max-height: 70vh; overflow-y: auto;
+  }
+  @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  .modal-handle { width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 1rem; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; }
+
+  .variant-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+  .variant-btn {
+    padding: 10px 12px; border-radius: 10px;
+    border: 1.5px solid #dde8df; background: #fff;
+    font-size: 13px; font-weight: 500; color: var(--text);
+    cursor: pointer; text-align: left; transition: all 0.12s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .variant-btn:active, .variant-btn.selected { border-color: var(--green); background: var(--green-pale); color: var(--green-dark); }
+
+  .qty-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .qty-label-text { font-size: 14px; font-weight: 500; }
+  .qty-ctrl { display: flex; align-items: center; gap: 14px; }
+  .qty-btn {
+    width: 38px; height: 38px; border-radius: 10px;
+    border: 1.5px solid #dde8df; background: #fff;
+    font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.1s; font-family: 'DM Sans', sans-serif; color: var(--green-dark);
+  }
+  .qty-btn:active { background: var(--green-pale); border-color: var(--green); }
+  .qty-num { font-size: 20px; font-weight: 500; min-width: 28px; text-align: center; }
+
+  .modal-confirm-btn {
+    width: 100%; padding: 14px; border-radius: 12px;
+    background: var(--green); border: none; color: #fff;
+    font-size: 16px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: background 0.12s;
+  }
+  .modal-confirm-btn:active { background: var(--green-dark); }
+  .modal-confirm-btn:disabled { background: #c0d3c4; cursor: default; }
+
+  /* ── RIGHT: QUEUE PANEL ── */
+  .queue-panel {
+    background: var(--cream);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  .queue-top {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1px solid #dde8df;
+    background: var(--cream-dark);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
+  }
+  .queue-top-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--green-dark); }
+
+  .btn-clear {
+    padding: 6px 14px; border-radius: 8px;
+    border: 1.5px solid #bdd4c2; background: #fff;
+    font-size: 12px; font-weight: 500; color: var(--text-muted);
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.12s;
+  }
+  .btn-clear:active { background: #fdecea; border-color: #e88; color: #c44; }
+
+  .queue-list {
+    flex: 1; overflow-y: auto; padding: 1rem 1.25rem;
+    -webkit-overflow-scrolling: touch;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .queue-list::-webkit-scrollbar { width: 4px; }
+  .queue-list::-webkit-scrollbar-thumb { background: #c5d9c9; border-radius: 4px; }
+
+  .empty-state {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; color: var(--text-muted); padding: 3rem 0;
+  }
+  .empty-icon { font-size: 48px; opacity: 0.35; }
+  .empty-text { font-size: 14px; }
+
+  /* ── ORDER CARD ── */
+  .order-card {
+    background: #fff; border-radius: var(--radius);
+    border: 1px solid #dde8df; padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+    box-shadow: var(--shadow);
+    animation: cardIn 0.2s ease;
+    transition: opacity 0.3s;
+  }
+  .order-card.done { opacity: 0.38; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+  .order-num {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--green-pale); color: var(--green-dark);
+    font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .order-body { flex: 1; }
+  .order-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
+  .order-meta { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    border: 1px solid #dde8df; color: var(--text-muted); background: var(--cream);
+  }
+  .tag-qty { background: var(--green-pale); border-color: #b8d4be; color: var(--green-dark); font-weight: 500; }
+
+  .order-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .btn-done {
+    padding: 6px 12px; border-radius: 8px;
+    border: 1.5px solid #86c996; background: #edfaf1;
+    color: #2e7d46; font-size: 12px; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.1s; white-space: nowrap;
+  }
+  .btn-done:active { background: #d4f5dc; }
+  .btn-del {
+    width: 30px; height: 30px; border-radius: 7px;
+    border: 1px solid #dde8df; background: #fff;
+    color: #aaa; cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.1s;
+  }
+  .btn-del:active { background: #fdecea; border-color: #e88; color: #c44; }
+
+  /* ── RESPONSIVE: iPad portrait stacks ── */
+  @media (max-width: 768px) {
+    .app {
+      grid-template-columns: 1fr;
+      grid-template-rows: 64px 1fr 1fr;
+      height: 100dvh;
+    }
+    header { grid-column: 1; padding: 0 1rem; }
+    .hstat { padding: 4px 10px; }
+    .hstat-num { font-size: 16px; }
+    .menu-panel { border-right: none; border-bottom: 1px solid #dde8df; overflow-y: auto; }
+    .queue-panel { overflow: hidden; }
+    .modal { max-width: 100%; }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .app { grid-template-columns: 360px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- HEADER -->
+  <header>
+    <div class="header-brand">
+      <div class="header-logo">🏡</div>
+      <div class="header-title">
+        <h1>Laman Rumah Nenek</h1>
+        <p>ORDER MANAGEMENT</p>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="hstat">
+        <div class="hstat-num" id="hstat-queue">0</div>
+        <div class="hstat-lbl">In Queue</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-num" id="hstat-done">0</div>
+        <div class="hstat-lbl">Done</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- LEFT: MENU -->
+  <div class="menu-panel" id="menu-panel"></div>
+
+  <!-- RIGHT: QUEUE -->
+  <div class="queue-panel">
+    <div class="queue-top">
+      <div class="queue-top-title">📋 Packing Queue</div>
+      <button class="btn-clear" onclick="clearDone()">Clear done</button>
+    </div>
+    <div class="queue-list" id="queue-list">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">🛒</div>
+        <div class="empty-text">No orders yet — tap a menu item to add</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-sub" id="modal-sub"></div>
+    <div id="modal-variant-section"></div>
+    <div class="qty-row">
+      <span class="qty-label-text">Quantity</span>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-num" id="modal-qty">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+    </div>
+    <button class="modal-confirm-btn" id="modal-confirm" onclick="confirmOrder()">Add to Queue</button>
+  </div>
+</div>
+
+<script>
+const MENU = [
+  {
+    category: "Savoury Bites",
+    icon: "🥘",
+    items: [
+      {
+        id: "bakwan",
+        name: "Bakwan Kuah Kacang",
+        icon: "🥜",
+        desc: "Fritters served with peanut sauce",
+        variants: null
+      },
+      {
+        id: "mantao",
+        name: "Mantao with Buttermilk Sauce",
+        icon: "🍞",
+        desc: "Steamed buns with creamy buttermilk dip",
+        variants: null
+      },
+      {
+        id: "roti",
+        name: "Roti Kukus Sosej",
+        icon: "🌭",
+        desc: "Steamed sausage bun — choose your flavour",
+        variants: {
+          label: "Flavour",
+          options: ["Original", "Chicken Carbonara", "Beef Bolognese"]
+        }
+      }
+    ]
+  },
+  {
+    category: "Porridge",
+    icon: "🍵",
+    items: [
+      {
+        id: "bubur-hitam",
+        name: "Bubur Pulut Hitam",
+        icon: "🫙",
+        desc: "Black glutinous rice porridge",
+        variants: null
+      },
+      {
+        id: "bubur-kacang",
+        name: "Bubur Kacang",
+        icon: "🟡",
+        desc: "Sweet mung bean porridge",
+        variants: null
+      }
+    ]
+  },
+  {
+    category: "Desserts",
+    icon: "🍮",
+    items: [
+      {
+        id: "puding-caramel",
+        name: "Puding Caramel",
+        icon: "🍮",
+        desc: "Classic homestyle caramel pudding",
+        variants: null
+      },
+      {
+        id: "puding-tutti",
+        name: "Puding Tutti Fruity",
+        icon: "🍭",
+        desc: "Colourful fruity jelly pudding cups",
+        variants: null
+      }
+    ]
+  },
+  {
+    category: "Chicken Tender",
+    icon: "🍗",
+    items: [
+      {
+        id: "sig-tender",
+        name: "Signature Chicken Tender",
+        icon: "🍗",
+        desc: "Our original crispy chicken tender",
+        variants: {
+          label: "Sauce",
+          options: ["Ranch", "Big Mac Sauce"]
+        }
+      },
+      {
+        id: "hot-tender",
+        name: "Hot Honey Garlic Chicken Tender",
+        icon: "🌶️",
+        desc: "Spicy honey garlic glazed tender",
+        variants: {
+          label: "Sauce",
+          options: ["Ranch", "Big Mac Sauce"]
+        }
+      }
+    ]
+  }
+];
+
+// State
+const state = {
+  orders: [],
+  counter: 0,
+  doneCount: 0,
+  modal: { item: null, variant: null, qty: 1 }
+};
+
+// Build menu
+function buildMenu() {
+  const panel = document.getElementById('menu-panel');
+  MENU.forEach(cat => {
+    const hdr = document.createElement('div');
+    hdr.className = 'category-header';
+    hdr.innerHTML = `<span>${cat.icon}</span>${cat.category}`;
+    panel.appendChild(hdr);
+
+    cat.items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'menu-item' + (item.variants ? ' has-variants' : '');
+      div.innerHTML = `
+        <div class="menu-icon">${item.icon}</div>
+        <div class="menu-info">
+          <div class="menu-name">${item.name}</div>
+          <div class="menu-sub">${item.variants ? '📌 ' + item.variants.options.join(' · ') : item.desc}</div>
+        </div>
+        <button class="menu-add-btn" aria-label="Add ${item.name}">+</button>
+      `;
+      div.addEventListener('click', () => openModal(item));
+      panel.appendChild(div);
+    });
+  });
+}
+
+// Modal
+function openModal(item) {
+  state.modal = { item, variant: null, qty: 1 };
+  document.getElementById('modal-title').textContent = item.name;
+  document.getElementById('modal-sub').textContent = item.desc;
+  document.getElementById('modal-qty').textContent = 1;
+
+  const varSection = document.getElementById('modal-variant-section');
+  varSection.innerHTML = '';
+
+  if (item.variants) {
+    const lbl = document.createElement('div');
+    lbl.className = 'variant-label';
+    lbl.textContent = item.variants.label;
+    varSection.appendChild(lbl);
+
+    const grid = document.createElement('div');
+    grid.className = 'variant-grid';
+    item.variants.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'variant-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => {
+        state.modal.variant = opt;
+        grid.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        updateConfirmBtn();
+      });
+      grid.appendChild(btn);
+    });
+    varSection.appendChild(grid);
+    document.getElementById('modal-confirm').disabled = true;
+  } else {
+    document.getElementById('modal-confirm').disabled = false;
+  }
+
+  document.getElementById('modal-backdrop').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-backdrop')) {
+    document.getElementById('modal-backdrop').classList.remove('open');
+  }
+}
+
+function updateConfirmBtn() {
+  const item = state.modal.item;
+  const needsVariant = item && item.variants;
+  document.getElementById('modal-confirm').disabled = needsVariant && !state.modal.variant;
+}
+
+function changeQty(delta) {
+  state.modal.qty = Math.max(1, Math.min(20, state.modal.qty + delta));
+  document.getElementById('modal-qty').textContent = state.modal.qty;
+}
+
+function confirmOrder() {
+  const { item, variant, qty } = state.modal;
+  if (!item) return;
+  state.counter++;
+  state.orders.push({ id: state.counter, item, variant, qty, done: false });
+  document.getElementById('modal-backdrop').classList.remove('open');
+  renderQueue();
+}
+
+// Queue
+function renderQueue() {
+  const list = document.getElementById('queue-list');
+  const active = state.orders.filter(o => !o.done);
+  const done = state.orders.filter(o => o.done).length;
+
+  document.getElementById('hstat-queue').textContent = active.length;
+  document.getElementById('hstat-done').textContent = done;
+
+  if (state.orders.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><div class="empty-text">No orders yet — tap a menu item to add</div></div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  [...state.orders].reverse().forEach(o => {
+    const card = document.createElement('div');
+    card.className = 'order-card' + (o.done ? ' done' : '');
+
+    const metaTags = [];
+    if (o.variant) metaTags.push(`<span class="tag">${o.variant}</span>`);
+    metaTags.push(`<span class="tag tag-qty">x${o.qty}</span>`);
+    if (o.done) metaTags.push(`<span class="tag" style="color:#2e7d46;border-color:#86c996">✓ Done</span>`);
+
+    card.innerHTML = `
+      <div class="order-num">#${o.id}</div>
+      <div class="order-body">
+        <div class="order-name">${o.item.name}</div>
+        <div class="order-meta">${metaTags.join('')}</div>
+      </div>
+      <div class="order-actions">
+        ${!o.done ? `<button class="btn-done" onclick="markDone(${o.id})">✓ Done</button>` : ''}
+        <button class="btn-del" onclick="deleteOrder(${o.id})">✕</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function markDone(id) {
+  const o = state.orders.find(x => x.id === id);
+  if (o) o.done = true;
+  renderQueue();
+}
+
+function deleteOrder(id) {
+  state.orders = state.orders.filter(x => x.id !== id);
+  renderQueue();
+}
+
+function clearDone() {
+  state.orders = state.orders.filter(x => !x.done);
+  renderQueue();
+}
+
+buildMenu();
+renderQueue();
+</script>
+</body>
+</html>
