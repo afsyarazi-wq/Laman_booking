@@ -36,8 +36,8 @@
   /* ── LAYOUT ── */
   .app {
     display: grid;
-    grid-template-columns: 420px 1fr;
-    grid-template-rows: 72px 1fr;
+    grid-template-columns: 400px 1fr;
+    grid-template-rows: 68px 1fr;
     height: 100dvh;
     max-height: 100dvh;
   }
@@ -52,46 +52,77 @@
   }
   .header-brand { display: flex; align-items: center; gap: 12px; }
   .header-logo {
-    width: 40px; height: 40px; background: var(--cream);
+    width: 38px; height: 38px; background: var(--cream);
     border-radius: 10px; display: flex; align-items: center; justify-content: center;
     font-size: 20px;
   }
   .header-title { color: #fff; }
-  .header-title h1 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; line-height: 1.1; }
-  .header-title p { font-size: 11px; color: #a8c4b0; letter-spacing: 0.05em; }
-  .header-stats { display: flex; gap: 10px; }
+  .header-title h1 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; line-height: 1.1; }
+  .header-title p { font-size: 10px; color: #a8c4b0; letter-spacing: 0.05em; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
   .hstat {
     background: rgba(255,255,255,0.10); border-radius: 10px;
-    padding: 6px 14px; text-align: center;
+    padding: 5px 12px; text-align: center;
   }
-  .hstat-num { color: #fff; font-size: 18px; font-weight: 500; line-height: 1; }
+  .hstat-num { color: #fff; font-size: 17px; font-weight: 500; line-height: 1; }
   .hstat-lbl { color: #a8c4b0; font-size: 10px; margin-top: 1px; }
 
   /* ── LEFT: MENU PANEL ── */
   .menu-panel {
     background: #fff;
     border-right: 1px solid #dde8df;
-    overflow-y: auto;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Active customer bar */
+  .active-customer-bar {
+    padding: 10px 1.25rem;
+    background: var(--green-pale);
+    border-bottom: 1px solid #c8dece;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    flex-shrink: 0;
+  }
+  .acb-left { display: flex; align-items: center; gap: 8px; }
+  .acb-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--green); flex-shrink: 0;
+    box-shadow: 0 0 0 3px #b0d8bc;
+  }
+  .acb-label { font-size: 13px; font-weight: 500; color: var(--green-dark); }
+  .acb-sub { font-size: 11px; color: var(--text-muted); }
+
+  .btn-new-customer {
+    padding: 7px 14px; border-radius: 9px;
+    background: var(--green); border: none; color: #fff;
+    font-size: 12px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; white-space: nowrap;
+    transition: background 0.12s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .btn-new-customer:active { background: var(--green-dark); }
+
+  .menu-scroll {
+    flex: 1; overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 2rem;
   }
-  .menu-panel::-webkit-scrollbar { width: 4px; }
-  .menu-panel::-webkit-scrollbar-thumb { background: #c5d9c9; border-radius: 4px; }
+  .menu-scroll::-webkit-scrollbar { width: 4px; }
+  .menu-scroll::-webkit-scrollbar-thumb { background: #c5d9c9; border-radius: 4px; }
 
   .category-header {
     position: sticky; top: 0; z-index: 5;
     background: var(--green-pale);
-    padding: 10px 1.25rem;
+    padding: 9px 1.25rem;
     font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
     text-transform: uppercase; color: var(--green-dark);
     border-bottom: 1px solid #dde8df;
     display: flex; align-items: center; gap: 8px;
   }
-  .category-header span { font-size: 16px; }
+  .category-header span { font-size: 15px; }
 
   .menu-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 14px 1.25rem;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 1.25rem;
     border-bottom: 1px solid #f0f4f1;
     cursor: pointer;
     transition: background 0.12s;
@@ -100,26 +131,23 @@
   .menu-item:active { background: var(--green-pale); }
 
   .menu-icon {
-    width: 52px; height: 52px; border-radius: 12px;
+    width: 46px; height: 46px; border-radius: 11px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 26px; flex-shrink: 0;
+    font-size: 24px; flex-shrink: 0;
     background: var(--green-pale);
   }
-
   .menu-info { flex: 1; }
-  .menu-name { font-size: 15px; font-weight: 500; color: var(--text); line-height: 1.3; }
-  .menu-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+  .menu-name { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .menu-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
   .menu-add-btn {
-    width: 36px; height: 36px; border-radius: 10px;
+    width: 34px; height: 34px; border-radius: 9px;
     background: var(--green); border: none; color: #fff;
-    font-size: 22px; cursor: pointer; flex-shrink: 0;
+    font-size: 21px; cursor: pointer; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    align-self: center; transition: background 0.12s, transform 0.1s;
+    transition: background 0.12s, transform 0.1s;
   }
-  .menu-add-btn:active { background: var(--green-dark); transform: scale(0.92); }
-
-  /* items with variants → show expand indicator */
+  .menu-add-btn:active { background: var(--green-dark); transform: scale(0.9); }
   .has-variants .menu-add-btn { background: var(--orange); }
 
   /* ── VARIANT MODAL ── */
@@ -132,15 +160,15 @@
     background: #fff; border-radius: 24px 24px 0 0;
     width: 100%; max-width: 480px; padding: 1.5rem;
     animation: slideUp 0.22s ease;
-    max-height: 70vh; overflow-y: auto;
+    max-height: 75vh; overflow-y: auto;
   }
   @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
 
   .modal-handle { width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 0 auto 1rem; }
-  .modal-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; margin-bottom: 3px; }
   .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 1.25rem; }
 
-  .variant-label { font-size: 12px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .variant-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
   .variant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
   .variant-btn {
     padding: 10px 12px; border-radius: 10px;
@@ -149,7 +177,7 @@
     cursor: pointer; text-align: left; transition: all 0.12s;
     font-family: 'DM Sans', sans-serif;
   }
-  .variant-btn:active, .variant-btn.selected { border-color: var(--green); background: var(--green-pale); color: var(--green-dark); }
+  .variant-btn.selected { border-color: var(--green); background: var(--green-pale); color: var(--green-dark); }
 
   .qty-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
   .qty-label-text { font-size: 14px; font-weight: 500; }
@@ -178,18 +206,16 @@
     display: flex; flex-direction: column;
     overflow: hidden;
   }
-
   .queue-top {
-    padding: 1rem 1.25rem 0.75rem;
+    padding: 10px 1.25rem;
     border-bottom: 1px solid #dde8df;
     background: var(--cream-dark);
     display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 8px;
+    gap: 8px; flex-shrink: 0;
   }
-  .queue-top-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--green-dark); }
-
+  .queue-top-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--green-dark); }
   .btn-clear {
-    padding: 6px 14px; border-radius: 8px;
+    padding: 6px 13px; border-radius: 8px;
     border: 1.5px solid #bdd4c2; background: #fff;
     font-size: 12px; font-weight: 500; color: var(--text-muted);
     cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.12s;
@@ -199,85 +225,135 @@
   .queue-list {
     flex: 1; overflow-y: auto; padding: 1rem 1.25rem;
     -webkit-overflow-scrolling: touch;
-    display: flex; flex-direction: column; gap: 10px;
+    display: flex; flex-direction: column; gap: 14px;
   }
   .queue-list::-webkit-scrollbar { width: 4px; }
   .queue-list::-webkit-scrollbar-thumb { background: #c5d9c9; border-radius: 4px; }
 
   .empty-state {
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 10px; color: var(--text-muted); padding: 3rem 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; color: var(--text-muted); padding: 4rem 0;
   }
-  .empty-icon { font-size: 48px; opacity: 0.35; }
-  .empty-text { font-size: 14px; }
+  .empty-icon { font-size: 44px; opacity: 0.3; }
+  .empty-text { font-size: 14px; text-align: center; line-height: 1.5; }
 
-  /* ── ORDER CARD ── */
-  .order-card {
-    background: #fff; border-radius: var(--radius);
-    border: 1px solid #dde8df; padding: 14px 16px;
-    display: flex; gap: 12px; align-items: flex-start;
+  /* ── CUSTOMER ORDER BOX ── */
+  .customer-box {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 2px solid #dde8df;
+    overflow: hidden;
     box-shadow: var(--shadow);
-    animation: cardIn 0.2s ease;
-    transition: opacity 0.3s;
+    animation: boxIn 0.22s ease;
+    transition: opacity 0.3s, border-color 0.3s;
   }
-  .order-card.done { opacity: 0.38; }
-  @keyframes cardIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+  .customer-box.all-done {
+    opacity: 0.45;
+    border-color: #c5d9c9;
+  }
+  @keyframes boxIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 
-  .order-num {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: var(--green-pale); color: var(--green-dark);
-    font-size: 13px; font-weight: 500;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  /* accent bar on left edge per customer — assigned via JS */
+  .customer-box { border-left-width: 4px; }
+
+  .customer-box-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f4f1;
   }
-  .order-body { flex: 1; }
-  .order-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
-  .order-meta { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
+  .customer-box-header-left { display: flex; align-items: center; gap: 10px; }
+  .cust-avatar {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0;
+    color: #fff;
+  }
+  .cust-label { font-size: 14px; font-weight: 500; }
+  .cust-count { font-size: 11px; color: var(--text-muted); }
+  .cust-actions { display: flex; gap: 6px; align-items: center; }
+
+  .btn-done-all {
+    padding: 5px 11px; border-radius: 7px;
+    border: 1.5px solid #86c996; background: #edfaf1;
+    color: #2e7d46; font-size: 11px; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.1s; white-space: nowrap;
+  }
+  .btn-done-all:active { background: #d4f5dc; }
+  .btn-del-cust {
+    width: 28px; height: 28px; border-radius: 7px;
+    border: 1px solid #dde8df; background: #fff;
+    color: #aaa; cursor: pointer; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.1s;
+  }
+  .btn-del-cust:active { background: #fdecea; border-color: #e88; color: #c44; }
+
+  /* items inside box */
+  .order-item-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 14px;
+    border-bottom: 1px solid #f5f7f5;
+  }
+  .order-item-row:last-child { border-bottom: none; }
+  .order-item-row.done .item-name { text-decoration: line-through; color: var(--text-muted); }
+
+  .item-icon { font-size: 18px; flex-shrink: 0; }
+  .item-body { flex: 1; }
+  .item-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
+  .item-meta { display: flex; gap: 5px; margin-top: 3px; flex-wrap: wrap; }
   .tag {
-    font-size: 11px; padding: 2px 8px; border-radius: 20px;
+    font-size: 10px; padding: 1px 7px; border-radius: 20px;
     border: 1px solid #dde8df; color: var(--text-muted); background: var(--cream);
   }
   .tag-qty { background: var(--green-pale); border-color: #b8d4be; color: var(--green-dark); font-weight: 500; }
 
-  .order-actions { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
-  .btn-done {
-    padding: 6px 12px; border-radius: 8px;
+  .item-actions { display: flex; gap: 5px; align-items: center; }
+  .btn-item-done {
+    width: 28px; height: 28px; border-radius: 7px;
     border: 1.5px solid #86c996; background: #edfaf1;
-    color: #2e7d46; font-size: 12px; font-weight: 500;
-    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.1s; white-space: nowrap;
-  }
-  .btn-done:active { background: #d4f5dc; }
-  .btn-del {
-    width: 30px; height: 30px; border-radius: 7px;
-    border: 1px solid #dde8df; background: #fff;
-    color: #aaa; cursor: pointer; font-size: 16px;
+    color: #2e7d46; font-size: 14px;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.1s;
+    cursor: pointer; transition: all 0.1s;
   }
-  .btn-del:active { background: #fdecea; border-color: #e88; color: #c44; }
+  .btn-item-done.is-done { background: #2e7d46; border-color: #2e7d46; color: #fff; }
+  .btn-item-del {
+    width: 28px; height: 28px; border-radius: 7px;
+    border: 1px solid #dde8df; background: #fff;
+    color: #bbb; cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.1s;
+  }
+  .btn-item-del:active { background: #fdecea; border-color: #e88; color: #c44; }
 
-  /* ── RESPONSIVE: iPad portrait stacks ── */
+  /* Add more button inside box */
+  .btn-add-more {
+    display: flex; align-items: center; gap: 6px;
+    width: 100%; padding: 8px 14px;
+    background: var(--green-pale); border: none;
+    color: var(--green-dark); font-size: 12px; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: background 0.12s;
+  }
+  .btn-add-more:active { background: #c8dece; }
+
+  /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .app {
       grid-template-columns: 1fr;
-      grid-template-rows: 64px 1fr 1fr;
+      grid-template-rows: 60px 1fr 1fr;
       height: 100dvh;
     }
     header { grid-column: 1; padding: 0 1rem; }
-    .hstat { padding: 4px 10px; }
-    .hstat-num { font-size: 16px; }
-    .menu-panel { border-right: none; border-bottom: 1px solid #dde8df; overflow-y: auto; }
-    .queue-panel { overflow: hidden; }
+    .menu-panel { border-right: none; border-bottom: 1px solid #dde8df; }
     .modal { max-width: 100%; }
+    .hstat { padding: 4px 9px; }
   }
-
   @media (min-width: 769px) and (max-width: 1024px) {
-    .app { grid-template-columns: 360px 1fr; }
+    .app { grid-template-columns: 340px 1fr; }
   }
 </style>
 </head>
 <body>
-
 <div class="app">
+
   <!-- HEADER -->
   <header>
     <div class="header-brand">
@@ -287,39 +363,49 @@
         <p>ORDER MANAGEMENT</p>
       </div>
     </div>
-    <div class="header-stats">
+    <div class="header-right">
       <div class="hstat">
-        <div class="hstat-num" id="hstat-queue">0</div>
-        <div class="hstat-lbl">In Queue</div>
+        <div class="hstat-num" id="hstat-customers">0</div>
+        <div class="hstat-lbl">Customers</div>
       </div>
       <div class="hstat">
-        <div class="hstat-num" id="hstat-done">0</div>
-        <div class="hstat-lbl">Done</div>
+        <div class="hstat-num" id="hstat-items">0</div>
+        <div class="hstat-lbl">Items</div>
       </div>
     </div>
   </header>
 
-  <!-- LEFT: MENU -->
-  <div class="menu-panel" id="menu-panel"></div>
+  <!-- LEFT: MENU PANEL -->
+  <div class="menu-panel">
+    <!-- Active customer bar -->
+    <div class="active-customer-bar">
+      <div class="acb-left">
+        <div class="acb-dot" id="acb-dot"></div>
+        <div>
+          <div class="acb-label" id="acb-label">No active customer</div>
+          <div class="acb-sub" id="acb-sub">Tap "New Customer" to start an order</div>
+        </div>
+      </div>
+      <button class="btn-new-customer" onclick="newCustomer()">+ New Customer</button>
+    </div>
+    <!-- Menu list -->
+    <div class="menu-scroll" id="menu-panel"></div>
+  </div>
 
-  <!-- RIGHT: QUEUE -->
+  <!-- RIGHT: QUEUE PANEL -->
   <div class="queue-panel">
     <div class="queue-top">
       <div class="queue-top-title">📋 Packing Queue</div>
       <button class="btn-clear" onclick="clearDone()">Clear done</button>
     </div>
-    <div class="queue-list" id="queue-list">
-      <div class="empty-state" id="empty-state">
-        <div class="empty-icon">🛒</div>
-        <div class="empty-text">No orders yet — tap a menu item to add</div>
-      </div>
-    </div>
+    <div class="queue-list" id="queue-list"></div>
   </div>
+
 </div>
 
 <!-- VARIANT MODAL -->
-<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
-  <div class="modal" id="modal">
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModalBackdrop(event)">
+  <div class="modal">
     <div class="modal-handle"></div>
     <div class="modal-title" id="modal-title"></div>
     <div class="modal-sub" id="modal-sub"></div>
@@ -332,160 +418,155 @@
         <button class="qty-btn" onclick="changeQty(1)">+</button>
       </div>
     </div>
-    <button class="modal-confirm-btn" id="modal-confirm" onclick="confirmOrder()">Add to Queue</button>
+    <button class="modal-confirm-btn" id="modal-confirm" onclick="confirmItem()">Add to Order</button>
   </div>
 </div>
 
 <script>
+// ── PALETTE for customer boxes ──
+const PALETTES = [
+  { border: '#4a7c59', avatar: '#4a7c59' },
+  { border: '#d4722a', avatar: '#d4722a' },
+  { border: '#3b6ea5', avatar: '#3b6ea5' },
+  { border: '#9b59b6', avatar: '#9b59b6' },
+  { border: '#c0392b', avatar: '#c0392b' },
+  { border: '#16a085', avatar: '#16a085' },
+  { border: '#8e6b2e', avatar: '#8e6b2e' },
+  { border: '#2c3e50', avatar: '#2c3e50' },
+];
+
 const MENU = [
   {
-    category: "Savoury Bites",
-    icon: "🥘",
+    category: "Savoury Bites", icon: "🥘",
     items: [
-      {
-        id: "bakwan",
-        name: "Bakwan Kuah Kacang",
-        icon: "🥜",
-        desc: "Fritters served with peanut sauce",
-        variants: null
-      },
-      {
-        id: "mantao",
-        name: "Mantao with Buttermilk Sauce",
-        icon: "🍞",
-        desc: "Steamed buns with creamy buttermilk dip",
-        variants: null
-      },
-      {
-        id: "roti",
-        name: "Roti Kukus Sosej",
-        icon: "🌭",
-        desc: "Steamed sausage bun — choose your flavour",
-        variants: {
-          label: "Flavour",
-          options: ["Original", "Chicken Carbonara", "Beef Bolognese"]
-        }
-      }
+      { id: "bakwan", name: "Bakwan Kuah Kacang", icon: "🥜", desc: "Fritters served with peanut sauce", variants: null },
+      { id: "mantao", name: "Mantao with Buttermilk Sauce", icon: "🍞", desc: "Steamed buns with creamy buttermilk dip", variants: null },
+      { id: "roti", name: "Roti Kukus Sosej", icon: "🌭", desc: "Steamed sausage bun — choose your flavour",
+        variants: { label: "Flavour", options: ["Original", "Chicken Carbonara", "Beef Bolognese"] } }
     ]
   },
   {
-    category: "Porridge",
-    icon: "🍵",
+    category: "Porridge", icon: "🍵",
     items: [
-      {
-        id: "bubur-hitam",
-        name: "Bubur Pulut Hitam",
-        icon: "🫙",
-        desc: "Black glutinous rice porridge",
-        variants: null
-      },
-      {
-        id: "bubur-kacang",
-        name: "Bubur Kacang",
-        icon: "🟡",
-        desc: "Sweet mung bean porridge",
-        variants: null
-      }
+      { id: "bubur-hitam", name: "Bubur Pulut Hitam", icon: "🫙", desc: "Black glutinous rice porridge", variants: null },
+      { id: "bubur-kacang", name: "Bubur Kacang", icon: "🟡", desc: "Sweet mung bean porridge", variants: null }
     ]
   },
   {
-    category: "Desserts",
-    icon: "🍮",
+    category: "Desserts", icon: "🍮",
     items: [
-      {
-        id: "puding-caramel",
-        name: "Puding Caramel",
-        icon: "🍮",
-        desc: "Classic homestyle caramel pudding",
-        variants: null
-      },
-      {
-        id: "puding-tutti",
-        name: "Puding Tutti Fruity",
-        icon: "🍭",
-        desc: "Colourful fruity jelly pudding cups",
-        variants: null
-      }
+      { id: "puding-caramel", name: "Puding Caramel", icon: "🍮", desc: "Classic homestyle caramel pudding", variants: null },
+      { id: "puding-tutti", name: "Puding Tutti Fruity", icon: "🍭", desc: "Colourful fruity jelly pudding cups", variants: null }
     ]
   },
   {
-    category: "Chicken Tender",
-    icon: "🍗",
+    category: "Chicken Tender", icon: "🍗",
     items: [
-      {
-        id: "sig-tender",
-        name: "Signature Chicken Tender",
-        icon: "🍗",
-        desc: "Our original crispy chicken tender",
-        variants: {
-          label: "Sauce",
-          options: ["Ranch", "Big Mac Sauce"]
-        }
-      },
-      {
-        id: "hot-tender",
-        name: "Hot Honey Garlic Chicken Tender",
-        icon: "🌶️",
-        desc: "Spicy honey garlic glazed tender",
-        variants: {
-          label: "Sauce",
-          options: ["Ranch", "Big Mac Sauce"]
-        }
-      }
+      { id: "sig-tender", name: "Signature Chicken Tender", icon: "🍗", desc: "Our original crispy chicken tender",
+        variants: { label: "Sauce", options: ["Ranch", "Big Mac Sauce"] } },
+      { id: "hot-tender", name: "Hot Honey Garlic Chicken Tender", icon: "🌶️", desc: "Spicy honey garlic glazed tender",
+        variants: { label: "Sauce", options: ["Ranch", "Big Mac Sauce"] } }
     ]
   }
 ];
 
-// State
+// ── STATE ──
 const state = {
-  orders: [],
-  counter: 0,
-  doneCount: 0,
+  customers: [],       // { id, label, palette, items: [{id, item, variant, qty, done}], itemCounter }
+  custCounter: 0,
+  activeCustomerId: null,
   modal: { item: null, variant: null, qty: 1 }
 };
 
-// Build menu
+// ── HELPERS ──
+function getActiveCustomer() {
+  return state.customers.find(c => c.id === state.activeCustomerId) || null;
+}
+function getPalette(idx) {
+  return PALETTES[idx % PALETTES.length];
+}
+
+// ── NEW CUSTOMER ──
+function newCustomer() {
+  state.custCounter++;
+  const palette = getPalette(state.customers.length);
+  const cust = {
+    id: state.custCounter,
+    label: 'Customer ' + state.custCounter,
+    palette,
+    items: [],
+    itemCounter: 0
+  };
+  state.customers.unshift(cust); // newest on top
+  state.activeCustomerId = cust.id;
+  updateActiveBar();
+  renderQueue();
+}
+
+function setActive(custId) {
+  state.activeCustomerId = custId;
+  updateActiveBar();
+  renderQueue();
+}
+
+function updateActiveBar() {
+  const cust = getActiveCustomer();
+  const dot = document.getElementById('acb-dot');
+  const lbl = document.getElementById('acb-label');
+  const sub = document.getElementById('acb-sub');
+  if (cust) {
+    dot.style.background = cust.palette.avatar;
+    dot.style.boxShadow = '0 0 0 3px ' + cust.palette.avatar + '44';
+    lbl.textContent = cust.label + ' — Active';
+    sub.textContent = cust.items.length + ' item(s) — tap menu to add';
+  } else {
+    dot.style.background = '#bbb';
+    dot.style.boxShadow = 'none';
+    lbl.textContent = 'No active customer';
+    sub.textContent = 'Tap "New Customer" to start an order';
+  }
+}
+
+// ── BUILD MENU ──
 function buildMenu() {
   const panel = document.getElementById('menu-panel');
   MENU.forEach(cat => {
     const hdr = document.createElement('div');
     hdr.className = 'category-header';
-    hdr.innerHTML = `<span>${cat.icon}</span>${cat.category}`;
+    hdr.innerHTML = '<span>' + cat.icon + '</span>' + cat.category;
     panel.appendChild(hdr);
-
     cat.items.forEach(item => {
       const div = document.createElement('div');
       div.className = 'menu-item' + (item.variants ? ' has-variants' : '');
-      div.innerHTML = `
-        <div class="menu-icon">${item.icon}</div>
-        <div class="menu-info">
-          <div class="menu-name">${item.name}</div>
-          <div class="menu-sub">${item.variants ? '📌 ' + item.variants.options.join(' · ') : item.desc}</div>
-        </div>
-        <button class="menu-add-btn" aria-label="Add ${item.name}">+</button>
-      `;
-      div.addEventListener('click', () => openModal(item));
+      div.innerHTML =
+        '<div class="menu-icon">' + item.icon + '</div>' +
+        '<div class="menu-info">' +
+          '<div class="menu-name">' + item.name + '</div>' +
+          '<div class="menu-sub">' + (item.variants ? '📌 ' + item.variants.options.join(' · ') : item.desc) + '</div>' +
+        '</div>' +
+        '<button class="menu-add-btn" aria-label="Add">+</button>';
+      div.addEventListener('click', () => {
+        if (!getActiveCustomer()) { newCustomer(); }
+        openModal(item);
+      });
       panel.appendChild(div);
     });
   });
 }
 
-// Modal
+// ── MODAL ──
 function openModal(item) {
   state.modal = { item, variant: null, qty: 1 };
   document.getElementById('modal-title').textContent = item.name;
   document.getElementById('modal-sub').textContent = item.desc;
   document.getElementById('modal-qty').textContent = 1;
-
   const varSection = document.getElementById('modal-variant-section');
   varSection.innerHTML = '';
-
   if (item.variants) {
     const lbl = document.createElement('div');
     lbl.className = 'variant-label';
     lbl.textContent = item.variants.label;
     varSection.appendChild(lbl);
-
     const grid = document.createElement('div');
     grid.className = 'variant-grid';
     item.variants.options.forEach(opt => {
@@ -496,7 +577,7 @@ function openModal(item) {
         state.modal.variant = opt;
         grid.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        updateConfirmBtn();
+        document.getElementById('modal-confirm').disabled = false;
       });
       grid.appendChild(btn);
     });
@@ -505,20 +586,12 @@ function openModal(item) {
   } else {
     document.getElementById('modal-confirm').disabled = false;
   }
-
   document.getElementById('modal-backdrop').classList.add('open');
 }
 
-function closeModal(e) {
-  if (e.target === document.getElementById('modal-backdrop')) {
+function closeModalBackdrop(e) {
+  if (e.target === document.getElementById('modal-backdrop'))
     document.getElementById('modal-backdrop').classList.remove('open');
-  }
-}
-
-function updateConfirmBtn() {
-  const item = state.modal.item;
-  const needsVariant = item && item.variants;
-  document.getElementById('modal-confirm').disabled = needsVariant && !state.modal.variant;
 }
 
 function changeQty(delta) {
@@ -526,71 +599,153 @@ function changeQty(delta) {
   document.getElementById('modal-qty').textContent = state.modal.qty;
 }
 
-function confirmOrder() {
+function confirmItem() {
   const { item, variant, qty } = state.modal;
-  if (!item) return;
-  state.counter++;
-  state.orders.push({ id: state.counter, item, variant, qty, done: false });
+  const cust = getActiveCustomer();
+  if (!item || !cust) return;
+  cust.itemCounter++;
+  cust.items.push({ id: cust.itemCounter, item, variant, qty, done: false });
   document.getElementById('modal-backdrop').classList.remove('open');
+  updateActiveBar();
   renderQueue();
 }
 
-// Queue
+// ── QUEUE RENDER ──
 function renderQueue() {
   const list = document.getElementById('queue-list');
-  const active = state.orders.filter(o => !o.done);
-  const done = state.orders.filter(o => o.done).length;
+  const activeCusts = state.customers.filter(c => c.items.length > 0);
 
-  document.getElementById('hstat-queue').textContent = active.length;
-  document.getElementById('hstat-done').textContent = done;
+  // stats
+  const totalItems = state.customers.reduce((s, c) => s + c.items.filter(i => !i.done).length, 0);
+  const activeCustCount = state.customers.filter(c => c.items.some(i => !i.done)).length;
+  document.getElementById('hstat-customers').textContent = activeCustCount;
+  document.getElementById('hstat-items').textContent = totalItems;
 
-  if (state.orders.length === 0) {
-    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🛒</div><div class="empty-text">No orders yet — tap a menu item to add</div></div>';
+  if (state.customers.length === 0 || state.customers.every(c => c.items.length === 0)) {
+    list.innerHTML = '';
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.innerHTML = '<div class="empty-icon">🛒</div><div class="empty-text">No orders yet<br>Tap "New Customer" then select menu items</div>';
+    list.appendChild(empty);
     return;
   }
 
   list.innerHTML = '';
-  [...state.orders].reverse().forEach(o => {
-    const card = document.createElement('div');
-    card.className = 'order-card' + (o.done ? ' done' : '');
+  state.customers.forEach(cust => {
+    if (cust.items.length === 0) return;
+    const allDone = cust.items.every(i => i.done);
+    const isActive = cust.id === state.activeCustomerId;
 
-    const metaTags = [];
-    if (o.variant) metaTags.push(`<span class="tag">${o.variant}</span>`);
-    metaTags.push(`<span class="tag tag-qty">x${o.qty}</span>`);
-    if (o.done) metaTags.push(`<span class="tag" style="color:#2e7d46;border-color:#86c996">✓ Done</span>`);
+    const box = document.createElement('div');
+    box.className = 'customer-box' + (allDone ? ' all-done' : '');
+    box.style.borderLeftColor = cust.palette.border;
 
-    card.innerHTML = `
-      <div class="order-num">#${o.id}</div>
-      <div class="order-body">
-        <div class="order-name">${o.item.name}</div>
-        <div class="order-meta">${metaTags.join('')}</div>
-      </div>
-      <div class="order-actions">
-        ${!o.done ? `<button class="btn-done" onclick="markDone(${o.id})">✓ Done</button>` : ''}
-        <button class="btn-del" onclick="deleteOrder(${o.id})">✕</button>
-      </div>
-    `;
-    list.appendChild(card);
+    // header
+    const pendingCount = cust.items.filter(i => !i.done).length;
+    const headerEl = document.createElement('div');
+    headerEl.className = 'customer-box-header';
+    headerEl.style.background = isActive ? cust.palette.border + '12' : '';
+    headerEl.innerHTML =
+      '<div class="customer-box-header-left">' +
+        '<div class="cust-avatar" style="background:' + cust.palette.avatar + '">' + cust.id + '</div>' +
+        '<div>' +
+          '<div class="cust-label">' + cust.label + (isActive ? ' <span style="font-size:10px;background:' + cust.palette.avatar + '22;color:' + cust.palette.avatar + ';padding:1px 6px;border-radius:4px;font-weight:500">Active</span>' : '') + '</div>' +
+          '<div class="cust-count">' + (allDone ? 'All done ✓' : pendingCount + ' item' + (pendingCount !== 1 ? 's' : '') + ' to pack') + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cust-actions">' +
+        (!allDone ? '<button class="btn-done-all" onclick="markAllDone(' + cust.id + ')">✓ All done</button>' : '') +
+        '<button class="btn-del-cust" onclick="deleteCustomer(' + cust.id + ')">✕</button>' +
+      '</div>';
+
+    // make header clickable to set active
+    headerEl.style.cursor = 'pointer';
+    headerEl.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      setActive(cust.id);
+    });
+    box.appendChild(headerEl);
+
+    // items
+    cust.items.forEach(orderItem => {
+      const row = document.createElement('div');
+      row.className = 'order-item-row' + (orderItem.done ? ' done' : '');
+      const tags = [];
+      if (orderItem.variant) tags.push('<span class="tag">' + orderItem.variant + '</span>');
+      tags.push('<span class="tag tag-qty">x' + orderItem.qty + '</span>');
+      row.innerHTML =
+        '<div class="item-icon">' + orderItem.item.icon + '</div>' +
+        '<div class="item-body">' +
+          '<div class="item-name">' + orderItem.item.name + '</div>' +
+          '<div class="item-meta">' + tags.join('') + '</div>' +
+        '</div>' +
+        '<div class="item-actions">' +
+          '<button class="btn-item-done' + (orderItem.done ? ' is-done' : '') + '" onclick="toggleItemDone(' + cust.id + ',' + orderItem.id + ')">✓</button>' +
+          '<button class="btn-item-del" onclick="deleteItem(' + cust.id + ',' + orderItem.id + ')">✕</button>' +
+        '</div>';
+      box.appendChild(row);
+    });
+
+    // add more button (only if active)
+    if (isActive) {
+      const addMoreBtn = document.createElement('button');
+      addMoreBtn.className = 'btn-add-more';
+      addMoreBtn.innerHTML = '＋ Add more items to this order';
+      addMoreBtn.addEventListener('click', () => {
+        document.getElementById('menu-panel').closest('.menu-panel').previousElementSibling;
+        document.querySelector('.menu-scroll').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      box.appendChild(addMoreBtn);
+    }
+
+    list.appendChild(box);
   });
 }
 
-function markDone(id) {
-  const o = state.orders.find(x => x.id === id);
-  if (o) o.done = true;
+// ── ACTIONS ──
+function toggleItemDone(custId, itemId) {
+  const cust = state.customers.find(c => c.id === custId);
+  if (!cust) return;
+  const item = cust.items.find(i => i.id === itemId);
+  if (item) item.done = !item.done;
   renderQueue();
 }
 
-function deleteOrder(id) {
-  state.orders = state.orders.filter(x => x.id !== id);
+function markAllDone(custId) {
+  const cust = state.customers.find(c => c.id === custId);
+  if (cust) cust.items.forEach(i => i.done = true);
+  renderQueue();
+}
+
+function deleteItem(custId, itemId) {
+  const cust = state.customers.find(c => c.id === custId);
+  if (!cust) return;
+  cust.items = cust.items.filter(i => i.id !== itemId);
+  updateActiveBar();
+  renderQueue();
+}
+
+function deleteCustomer(custId) {
+  state.customers = state.customers.filter(c => c.id !== custId);
+  if (state.activeCustomerId === custId) {
+    state.activeCustomerId = state.customers.length > 0 ? state.customers[0].id : null;
+  }
+  updateActiveBar();
   renderQueue();
 }
 
 function clearDone() {
-  state.orders = state.orders.filter(x => !x.done);
+  state.customers.forEach(c => { c.items = c.items.filter(i => !i.done); });
+  state.customers = state.customers.filter(c => c.items.length > 0);
+  if (!state.customers.find(c => c.id === state.activeCustomerId)) {
+    state.activeCustomerId = state.customers.length > 0 ? state.customers[0].id : null;
+  }
+  updateActiveBar();
   renderQueue();
 }
 
 buildMenu();
+updateActiveBar();
 renderQueue();
 </script>
 </body>
