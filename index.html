@@ -67,6 +67,15 @@
   .hstat-num { color: #fff; font-size: 17px; font-weight: 500; line-height: 1; }
   .hstat-lbl { color: #a8c4b0; font-size: 10px; margin-top: 1px; }
 
+  .btn-summary {
+    padding: 7px 14px; border-radius: 9px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+    color: #fff; font-size: 12px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; white-space: nowrap;
+    transition: background 0.12s; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-summary:active { background: rgba(255,255,255,0.25); }
+
   /* ── LEFT: MENU PANEL ── */
   .menu-panel {
     background: #fff;
@@ -334,6 +343,110 @@
   }
   .btn-add-more:active { background: #c8dece; }
 
+  /* ── SUMMARY MODAL ── */
+  .summary-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    z-index: 200; display: none; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .summary-backdrop.open { display: flex; }
+  .summary-modal {
+    background: var(--cream); border-radius: 20px;
+    width: 100%; max-width: 560px; max-height: 85vh;
+    display: flex; flex-direction: column;
+    animation: fadeScale 0.22s ease;
+    overflow: hidden;
+  }
+  @keyframes fadeScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+
+  .summary-header {
+    background: var(--green-dark); padding: 1.25rem 1.5rem;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    flex-shrink: 0;
+  }
+  .summary-header-left {}
+  .summary-date { font-size: 11px; color: #a8c4b0; letter-spacing: 0.05em; margin-bottom: 2px; }
+  .summary-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #fff; }
+  .summary-close {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(255,255,255,0.15); border: none; color: #fff;
+    font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .summary-close:active { background: rgba(255,255,255,0.25); }
+
+  .summary-body { overflow-y: auto; padding: 1.25rem 1.5rem; flex: 1; display: flex; flex-direction: column; gap: 1.25rem; }
+  .summary-body::-webkit-scrollbar { width: 4px; }
+  .summary-body::-webkit-scrollbar-thumb { background: #c5d9c9; border-radius: 4px; }
+
+  .summary-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .summary-stat {
+    background: #fff; border-radius: 12px; border: 1px solid #dde8df;
+    padding: 12px 14px; text-align: center;
+  }
+  .summary-stat-num { font-size: 26px; font-weight: 500; color: var(--green-dark); line-height: 1; }
+  .summary-stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+  .summary-section-title {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
+  }
+
+  .summary-menu-table {
+    background: #fff; border-radius: 12px; border: 1px solid #dde8df; overflow: hidden;
+  }
+  .smt-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 14px; border-bottom: 1px solid #f0f4f1;
+  }
+  .smt-row:last-child { border-bottom: none; }
+  .smt-icon { font-size: 20px; flex-shrink: 0; width: 28px; text-align: center; }
+  .smt-info { flex: 1; }
+  .smt-name { font-size: 13px; font-weight: 500; }
+  .smt-variants { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .smt-qty {
+    font-size: 15px; font-weight: 500; color: var(--green-dark);
+    background: var(--green-pale); border-radius: 8px;
+    padding: 3px 10px; min-width: 36px; text-align: center;
+  }
+
+  .summary-cust-list { display: flex; flex-direction: column; gap: 6px; }
+  .summary-cust-row {
+    background: #fff; border-radius: 10px; border: 1px solid #dde8df;
+    padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .scr-avatar {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .scr-label { font-size: 13px; font-weight: 500; flex: 1; }
+  .scr-items { font-size: 11px; color: var(--text-muted); }
+  .scr-status {
+    font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 6px;
+  }
+  .scr-status.done { background: #edfaf1; color: #2e7d46; }
+  .scr-status.pending { background: #fff7ed; color: #c05621; }
+
+  .summary-footer {
+    padding: 1rem 1.5rem; border-top: 1px solid #dde8df; flex-shrink: 0;
+    display: flex; gap: 8px;
+  }
+  .btn-reset {
+    flex: 1; padding: 12px; border-radius: 10px;
+    border: 1.5px solid #e0c4c4; background: #fff;
+    color: #c44; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.12s;
+  }
+  .btn-reset:active { background: #fdecea; }
+  .btn-close-summary {
+    flex: 1; padding: 12px; border-radius: 10px;
+    background: var(--green); border: none; color: #fff;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; transition: background 0.12s;
+  }
+  .btn-close-summary:active { background: var(--green-dark); }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
     .app {
@@ -372,6 +485,7 @@
         <div class="hstat-num" id="hstat-items">0</div>
         <div class="hstat-lbl">Items</div>
       </div>
+      <button class="btn-summary" onclick="openSummary()">📊 Summary</button>
     </div>
   </header>
 
@@ -419,6 +533,24 @@
       </div>
     </div>
     <button class="modal-confirm-btn" id="modal-confirm" onclick="confirmItem()">Add to Order</button>
+  </div>
+</div>
+
+<!-- SUMMARY MODAL -->
+<div class="summary-backdrop" id="summary-backdrop" onclick="closeSummaryBackdrop(event)">
+  <div class="summary-modal">
+    <div class="summary-header">
+      <div class="summary-header-left">
+        <div class="summary-date" id="summary-date"></div>
+        <div class="summary-title">End of Day Summary</div>
+      </div>
+      <button class="summary-close" onclick="closeSummary()">✕</button>
+    </div>
+    <div class="summary-body" id="summary-body"></div>
+    <div class="summary-footer">
+      <button class="btn-reset" onclick="resetDay()">🗑 Reset & Start New Day</button>
+      <button class="btn-close-summary" onclick="closeSummary()">Close</button>
+    </div>
   </div>
 </div>
 
@@ -740,6 +872,119 @@ function clearDone() {
   if (!state.customers.find(c => c.id === state.activeCustomerId)) {
     state.activeCustomerId = state.customers.length > 0 ? state.customers[0].id : null;
   }
+  updateActiveBar();
+  renderQueue();
+}
+
+// ── SUMMARY ──
+function openSummary() {
+  const now = new Date();
+  document.getElementById('summary-date').textContent =
+    now.toLocaleDateString('en-MY', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  const allCustomers = state.customers;
+  const allItems = allCustomers.flatMap(c => c.items);
+  const totalCustomers = allCustomers.length;
+  const totalQty = allItems.reduce((s, i) => s + i.qty, 0);
+  const totalDone = allItems.filter(i => i.done).reduce((s, i) => s + i.qty, 0);
+
+  // tally per menu item
+  const tally = {};
+  allItems.forEach(i => {
+    const key = i.item.id;
+    if (!tally[key]) tally[key] = { item: i.item, total: 0, variants: {} };
+    tally[key].total += i.qty;
+    if (i.variant) {
+      tally[key].variants[i.variant] = (tally[key].variants[i.variant] || 0) + i.qty;
+    }
+  });
+
+  const body = document.getElementById('summary-body');
+  body.innerHTML = '';
+
+  // stat cards
+  const statRow = document.createElement('div');
+  statRow.className = 'summary-stat-row';
+  statRow.innerHTML =
+    '<div class="summary-stat"><div class="summary-stat-num">' + totalCustomers + '</div><div class="summary-stat-lbl">Total Customers</div></div>' +
+    '<div class="summary-stat"><div class="summary-stat-num">' + totalQty + '</div><div class="summary-stat-lbl">Total Items Sold</div></div>' +
+    '<div class="summary-stat"><div class="summary-stat-num">' + (totalQty > 0 ? Math.round(totalDone / totalQty * 100) : 0) + '%</div><div class="summary-stat-lbl">Completed</div></div>';
+  body.appendChild(statRow);
+
+  // per-menu breakdown — always show all items
+  const secTitle = document.createElement('div');
+  secTitle.className = 'summary-section-title';
+  secTitle.textContent = 'Items Sold — Breakdown';
+  body.appendChild(secTitle);
+
+  const table = document.createElement('div');
+  table.className = 'summary-menu-table';
+
+  // flatten all menu items from MENU constant
+  const allMenuItems = MENU.flatMap(cat => cat.items);
+
+  allMenuItems.forEach(menuItem => {
+    const entry = tally[menuItem.id];
+    const total = entry ? entry.total : 0;
+    const variants = entry ? entry.variants : {};
+    const variantText = Object.entries(variants).map(([v, q]) => v + ': ' + q).join(' · ');
+
+    const row = document.createElement('div');
+    row.className = 'smt-row';
+    row.style.opacity = total === 0 ? '0.45' : '1';
+    row.innerHTML =
+      '<div class="smt-icon">' + menuItem.icon + '</div>' +
+      '<div class="smt-info">' +
+        '<div class="smt-name">' + menuItem.name + '</div>' +
+        (variantText ? '<div class="smt-variants">' + variantText + '</div>' : (total === 0 ? '<div class="smt-variants">No orders</div>' : '')) +
+      '</div>' +
+      '<div class="smt-qty" style="' + (total === 0 ? 'background:#f0f0f0;color:#aaa' : '') + '">' + total + '</div>';
+    table.appendChild(row);
+  });
+  body.appendChild(table);
+
+  // per-customer breakdown
+  if (allCustomers.length > 0) {
+    const secTitle2 = document.createElement('div');
+    secTitle2.className = 'summary-section-title';
+    secTitle2.textContent = 'Customer Orders';
+    body.appendChild(secTitle2);
+
+    const custList = document.createElement('div');
+    custList.className = 'summary-cust-list';
+    allCustomers.forEach(cust => {
+      if (cust.items.length === 0) return;
+      const allDone = cust.items.every(i => i.done);
+      const custQty = cust.items.reduce((s, i) => s + i.qty, 0);
+      const row = document.createElement('div');
+      row.className = 'summary-cust-row';
+      row.innerHTML =
+        '<div class="scr-avatar" style="background:' + cust.palette.avatar + '">' + cust.id + '</div>' +
+        '<div class="scr-label">' + cust.label + '</div>' +
+        '<div class="scr-items">' + custQty + ' item' + (custQty !== 1 ? 's' : '') + '</div>' +
+        '<div class="scr-status ' + (allDone ? 'done' : 'pending') + '">' + (allDone ? '✓ Done' : '⏳ Pending') + '</div>';
+      custList.appendChild(row);
+    });
+    body.appendChild(custList);
+  }
+
+  document.getElementById('summary-backdrop').classList.add('open');
+}
+
+function closeSummary() {
+  document.getElementById('summary-backdrop').classList.remove('open');
+}
+
+function closeSummaryBackdrop(e) {
+  if (e.target === document.getElementById('summary-backdrop')) closeSummary();
+}
+
+function resetDay() {
+  if (!confirm('Reset all orders and start a new day?')) return;
+  state.customers = [];
+  state.custCounter = 0;
+  state.activeCustomerId = null;
+  closeSummary();
   updateActiveBar();
   renderQueue();
 }
